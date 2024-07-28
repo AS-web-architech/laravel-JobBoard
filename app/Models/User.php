@@ -54,4 +54,7 @@ class User extends Authenticatable
     public function resume(){
         return $this->hasOne(Resume::class, 'user_id', 'id');
     }
+    public function profile(){
+        return $this->hasOne(UserProfile::class, 'user_id', 'id');
+    }
 }

@@ -21,10 +21,10 @@ Route::get('/contact', function () {
 Route::get('/signIn', function () {
     return view('User.signIn');
 });
-Route::resource('/users', UserController::class);
-Route::get('/create-user', function () {
-    return view('User.create-user');
-});
+// User Routes
+Route::resource('/users', UserController::class);//index route
+Route::resource('/users', UserController::class);//resorce route
+
 Route::get('/jobs', function () {
     return view('jobs.index', [
         'job' => Job::all()

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -13,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        return view('User.create-user');   
     }
 
     /**
@@ -29,7 +30,28 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $request->validate([
+            'name'=>['required'],
+            'email'=>['required','unique:users,email'],
+            'password'=>['required',Password::min(8)
+                                             ->mixedcase()
+                                             ->numbers()
+                                             ->symbols(),
+                                             
+                                             
+             ],
+            'userRole'=>['required'],
+        ]);
+        User::create([
+          'name' => request('name'),
+          'email' => request('email'),
+          'password' => request('password'),
+          'confirmPass' => request('confirm_password'),
+          'user_role' => request('userRole'),
+        ]);
+        
+
+        return redirect()->route('users.index')->with('success','User has been created successfully');
     }
 
     /**

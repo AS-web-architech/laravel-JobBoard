@@ -21,7 +21,7 @@
                     <input type="checkbox" name="remember" id="remember_me" class="text-blue-600 border-gray-300 rounded focus:ring-blue-500">
                     <span class="ml-2 text-sm text-gray-600">Remember me</span>
                 </label>
-                <a href="/create-user" class="text-sm text-gray-600 hover:underline">create account</a>
+                <a href="{{route('users.index')}}" class="text-sm text-gray-600 hover:underline">create account</a>
             </div>
             <div>
                 <button type="submit" class="w-full px-4 py-2 mt-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-200">Login</button>
