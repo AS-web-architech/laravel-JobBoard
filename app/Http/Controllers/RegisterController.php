@@ -3,21 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
-
-use function Laravel\Prompts\confirm;
-
-class UserController extends Controller
+class RegisterController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('Auth.create-user');   
+        
     }
 
     /**
@@ -25,7 +24,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('Auth.create-user');
     }
 
     /**
@@ -33,9 +32,27 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-      
-         
+         //validation
+         $request->validate([
+            'name'=>['required'],
+            'email'=>['required','unique:users,email'],
+            'password'=>['required',Password::min(6), 'confirmed'],
+            'userRole' => ['required', Rule::in(['jobSeeker', 'employer'])],    
+        ]);
+        //
+        $user=User::create([
+          'name' => request('name'),
+          'email' => request('email'),
+          'password' => request('password'),
+          'confirmPass' => request('confirm_password'),
+          'user_role' => request('userRole'),
+        ]);
         
+        // dd($data);
+        Auth::login($user);
+        //set with message
+        $message = 'congratulations you are logged in';
+        return redirect()->route('homePage')->with('message', $message);
     }
 
     /**
